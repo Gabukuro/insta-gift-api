@@ -127,3 +127,16 @@ func (cfg *Config) GetSecretString(property string) (secret string) {
 
 	return
 }
+
+func (cfg *Config) GetDataBaseSecret(database string) (databaseURL string) {
+	secrets := make(secrets)
+	cfg.GetSecretValue("database", &secrets)
+
+	if database, ok := secrets[database]; ok {
+		if databaseString, ok := database.(string); ok {
+			return databaseString
+		}
+	}
+
+	return
+}
