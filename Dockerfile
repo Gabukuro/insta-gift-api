@@ -16,5 +16,5 @@ ENV ENV=$ENV
 
 COPY --from=builder /tmp/main /main
 
-EXPOSE 3000
+EXPOSE 8000
 CMD ["/main"]

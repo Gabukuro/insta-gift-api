@@ -15,7 +15,7 @@ import (
 type (
 	Config struct {
 		GoEnv                string `env:"GO_ENV" envDefault:"development"`
-		AwsRegion            string `env:"AWS_REGION" envDefault:"us-east-1"`
+		AwsRegion            string `env:"AWS_REGION" envDefault:"us-east-2"`
 		SecretsManagerRegion string `env:"SECRETS_MANAGER_REGION" envDefault:""`
 		AwsProvider          awsprovider.AWSProvider
 		awsSecretsManager    secretsmanageriface.SecretsManagerAPI
