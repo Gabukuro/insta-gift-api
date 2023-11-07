@@ -52,14 +52,16 @@ jobs:
       - run:
           name: "Login to Docker"
           command: >- 
-            aws ecr get-login-password --region us-east-1 | docker login 
-            --username AWS --password-stdin 
-            $AWS_DOCKER_REPO_ID.dkr.ecr.us-east-1.amazonaws.com
+            echo $AWS_ECR_REGISTRY_PASSWORD | docker login -u AWS --password-stdin $AWS_DOCKER_REPO_ID.dkr.ecr.us-east-2.amazonaws.com
+      - run:
+          name: "Configure AWS CLI"
+          command: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+
       - run:
           name: "Push Image"
           command: >
             docker tag $CIRCLE_PROJECT_REPONAME:latest 
-            $AWS_DOCKER_REPO_ID.dkr.ecr.us-east-1.amazonaws.com/$CIRCLE_PROJECT_REPONAME:latest
+            $AWS_DOCKER_REPO_ID.dkr.ecr.us-east-2.amazonaws.com/$CIRCLE_PROJECT_REPONAME:latest
 workflows:
   version: 2
   build:
