@@ -11,9 +11,6 @@ RUN make build-prod
 
 FROM scratch
 
-ARG ENV
-ENV ENV=$ENV
-
 COPY --from=builder /tmp/main /main
 
 EXPOSE 8000

@@ -34,7 +34,6 @@ jobs:
         script: |
           export GO_ENV=production
           export PORT=8000
-          make build-prod
-          chmod +x /temp/main
-          nohup ./temp/main > nohup.out 2> nohup.err < /dev/null &
+          chmod +x main
+          nohup ./main > nohup.out 2> nohup.err < /dev/null &
 
