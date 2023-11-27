@@ -26,7 +26,7 @@ func main() {
 	})
 
 	databaseURL := config.GetDataBaseSecret("insta-gift-api")
-	logger.Info().Msgf("databaseURL: %s", databaseURL)
+	fmt.Println(databaseURL)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

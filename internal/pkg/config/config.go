@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"github.com/Gabukuro/insta-gift-api/internal/pkg/awsprovider"
@@ -70,8 +71,12 @@ func (cfg *Config) GetSecretValue(secret string, secretData any) {
 		SecretId: secretId,
 	}
 
+	fmt.Println(secretId)
+	fmt.Println(secretValueInput)
 	receivedSecret, err := cfg.awsSecretsManager.GetSecretValue(secretValueInput)
 	if err != nil {
+		fmt.Println(err.Error())
+
 		cfg.logger.Error().Err(err).Msgf("failed to load secret: %s", secret)
 		panic(err)
 	}
