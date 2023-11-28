@@ -16,6 +16,7 @@ jobs:
       - name: Scan
         uses: sonarsource/sonarcloud-github-action@master
         env: 
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_ROOT_CERT: ${{ secrets.SONAR_ROOT_CERT }}
