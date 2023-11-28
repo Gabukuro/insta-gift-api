@@ -12,7 +12,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       GO_ENV: test
-      TEST_RESULTS: /tmp/test-results
     strategy:
       matrix:
         go_version: ['1.20']

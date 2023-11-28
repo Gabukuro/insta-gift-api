@@ -15,10 +15,13 @@ CREATE TABLE products (
   PRIMARY KEY (id)
 );
 
+CREATE TYPE prediction_status AS ENUM ('pending', 'completed', 'failed');
+
 CREATE TABLE predictions (
   id UUID NOT NULL,
   username TEXT,
   feedback_rate INTEGER,
+  status prediction_status,
   created_at TIMESTAMP WITH TIME ZONE,
   updated_at TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY (id)

@@ -10,6 +10,11 @@ type (
 		service *Service
 		logger  *zerolog.Logger
 	}
+
+	Response struct {
+		Prediction *Prediction `json:"prediction,omitempty"`
+		Message    string      `json:"message,omitempty"`
+	}
 )
 
 func NewHTTPHandler(app *fiber.App, service *Service, logger *zerolog.Logger) {
@@ -21,7 +26,7 @@ func NewHTTPHandler(app *fiber.App, service *Service, logger *zerolog.Logger) {
 	predictionGroup := app.Group("/prediction/:username")
 
 	predictionGroup.Get("/", handler.GetPredictionByUsername)
-	predictionGroup.Post("/", handler.EnqueuePrediction)
+	predictionGroup.Post("/", handler.CreatePrediction)
 }
 
 func (h *httpHandler) GetPredictionByUsername(ctx *fiber.Ctx) error {
@@ -31,9 +36,25 @@ func (h *httpHandler) GetPredictionByUsername(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	return ctx.JSON(prediction)
+	return ctx.JSON(&Response{Prediction: prediction})
 }
 
-func (h *httpHandler) EnqueuePrediction(ctx *fiber.Ctx) error {
-	return nil
+func (h *httpHandler) CreatePrediction(ctx *fiber.Ctx) error {
+	username := ctx.Params("username")
+
+	if status, exists := h.service.CheckIfPredictionExistsAndReturnItsStatus(ctx.Context(), username); exists {
+		switch *status {
+		case PredictionStatusPending:
+			return ctx.JSON(&Response{Message: "Prediction is pending"})
+		case PredictionStatusCompleted:
+			return h.GetPredictionByUsername(ctx)
+		}
+	}
+
+	err := h.service.CreatePrediction(ctx.Context(), username)
+	if err != nil {
+		return err
+	}
+
+	return ctx.JSON(&Response{Message: "Prediction created"})
 }

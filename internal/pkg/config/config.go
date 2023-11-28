@@ -71,8 +71,6 @@ func (cfg *Config) GetSecretValue(secret string, secretData any) {
 		SecretId: secretId,
 	}
 
-	fmt.Println(secretId)
-	fmt.Println(secretValueInput)
 	receivedSecret, err := cfg.awsSecretsManager.GetSecretValue(secretValueInput)
 	if err != nil {
 		fmt.Println(err.Error())

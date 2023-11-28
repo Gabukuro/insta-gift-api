@@ -24,6 +24,8 @@ func main() {
 	logger := log.New(zerolog.InfoLevel)
 	config := config.New(logger)
 
+	snsClient := config.AwsProvider.SNS()
+
 	routerInstance := router.NewRouter(&router.Options{
 		AppName: "insta-gift-api",
 		Logger:  logger,
@@ -34,7 +36,13 @@ func main() {
 	databaseBun := bun.NewDB(databaseInstance.DB, pgdialect.New())
 
 	predictionRepo := prediction.NewRepository(databaseBun, logger)
-	predictionService := prediction.NewService(ctx, predictionRepo, logger)
+	predictionService := prediction.NewService(prediction.ServiceParams{
+		Ctx:                     ctx,
+		Repository:              predictionRepo,
+		Logger:                  logger,
+		SNSClient:               snsClient,
+		PredictionEventTopicArn: config.GetSecretString("aws.sns.insta-gift-api.analysisProfileEvents"),
+	})
 	prediction.NewHTTPHandler(routerInstance.App(), predictionService, logger)
 
 	c := make(chan os.Signal, 1)
