@@ -36,6 +36,14 @@ jobs:
         make test | tee ${TEST_RESULTS}/go-test.out && cp coverage.out 
         ${TEST_RESULTS}/coverage.out
 
+    - name: Upload test results
+      uses: actions/upload-artifact@v3.1.0
+      with:
+    # Artifact name
+        name: ${TEST_RESULTS}
+    # A file, directory or wildcard pattern that describes what to upload
+        path: ${TEST_RESULTS}
+
   
   build:
     needs: test
