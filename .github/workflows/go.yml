@@ -50,12 +50,13 @@ jobs:
 
   analyze_sonar:
     # needs: test
+    if: ${{ github.ref == 'refs/head/main' }}
     uses: ./.github/workflows/Sonar.yml
     secrets: inherit
 
   docker:
     needs: build
-    if: ${{github.ref_name}} == 'main'
+    if: ${{ github.ref == 'refs/head/main' }}
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
 
