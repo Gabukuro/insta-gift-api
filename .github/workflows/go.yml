@@ -12,7 +12,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       GO_ENV: test
-      TEST_RESULTS: /tmp/test-results
     strategy:
       matrix:
         go_version: ['1.20']
@@ -31,18 +30,16 @@ jobs:
     - name: Test
       run: |
         trap "go-junit-report <${TEST_RESULTS}/go-test.out > 
-        ${TEST_RESULTS}/go-test-report.xml" EXIT
+        /tmp/test-results/go-test-report.xml" EXIT
 
         make test | tee ${TEST_RESULTS}/go-test.out && cp coverage.out 
-        ${TEST_RESULTS}/coverage.out
+        /tmp/test-results/coverage.out
 
     - name: Upload test results
       uses: actions/upload-artifact@v3.1.0
       with:
-    # Artifact name
-        name: ${TEST_RESULTS}
-    # A file, directory or wildcard pattern that describes what to upload
-        path: ${TEST_RESULTS}
+        name: /tmp/test-results
+        path: /tmp/test-results
 
   
   build:
