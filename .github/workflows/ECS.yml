@@ -24,7 +24,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: Go
-        image: bagrielis/insta-gift-api:${{github.run_number}}
+        image: bagrielis/insta-gift-api:${{github.ref_name}}
         environment-variables: |
           PORT=8000
           
