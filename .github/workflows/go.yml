@@ -29,16 +29,13 @@ jobs:
 
     - name: Test
       run: |
-        trap "go-junit-report <${TEST_RESULTS}/go-test.out > 
-        /tmp/test-results/go-test-report.xml" EXIT
-
-        make test | tee ${TEST_RESULTS}/go-test.out && cp coverage.out 
-        /tmp/test-results/coverage.out
+        trap "go-junit-report /tmp/test-results/go-test.out > /tmp/test-results/go-test-report.xml" EXIT
+        make test | tee /tmp/test-results/go-test.out && cp coverage.out /tmp/test-results/coverage.out
 
     - name: Upload test results
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: /tmp/test-results
+        name: test-results
         path: /tmp/test-results
 
   

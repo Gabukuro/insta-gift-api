@@ -13,7 +13,8 @@ jobs:
       - name: Download test results
         uses: actions/download-artifact@v3.0.0
         with:
-          name: /temp/test-results
+          name: test-results
+          path: /tmp/test-results
 
       - name: Set up Java
         uses: actions/setup-java@v2
