@@ -1,4 +1,4 @@
-name: continuous-deployment
+name: EC2
 
 on:
   workflow_call: 
