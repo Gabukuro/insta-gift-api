@@ -12,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       GO_ENV: test
+      TEST_RESULTS: /tmp/test-results
     strategy:
       matrix:
         go_version: ['1.20']
@@ -28,7 +29,13 @@ jobs:
       run: make install
 
     - name: Test
-      run: make test
+      run: |
+        trap "go-junit-report <${TEST_RESULTS}/go-test.out > 
+        ${TEST_RESULTS}/go-test-report.xml" EXIT
+
+        make test | tee ${TEST_RESULTS}/go-test.out && cp coverage.out 
+        ${TEST_RESULTS}/coverage.out
+
   
   build:
     needs: test
@@ -47,17 +54,18 @@ jobs:
         path: main
 
 
+  analyze_sonar:
+    needs: test
+    uses: ./.github/workflows/Sonar.yml
+    secrets: inherit
+
   docker:
     needs: build
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
 
-  # deploy_ec2:
-  #   needs: build
-  #   uses: ./.github/workflows/EC2.yml
-  #   secrets: inherit
-
-  deploy_ecs:
-    needs: docker
-    uses: ./.github/workflows/ECS.yml
+  deploy_ec2:
+    needs: build
+    uses: ./.github/workflows/EC2.yml
     secrets: inherit
+

@@ -1,0 +1,36 @@
+name: SonarQube Analysis
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download test results
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: /temp/test-results
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: SonarQube Scan
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=insta-gift-api \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=http://18.191.78.107:9000 \
+            -Dsonar.login=sqp_d8906e943e804c248370b6baf6d50c6b618775ab \
+            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}" \
+            -Dsonar.pullrequest.branch=${{github.ref_name}} \
+            -Dsonar.pullrequest.base=master \
+            -Dsonar.qualitygate.wait=true
