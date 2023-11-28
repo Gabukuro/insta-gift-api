@@ -16,18 +16,6 @@ jobs:
       - name: Scan
         uses: sonarsource/sonarcloud-github-action@master
         env: 
-          GITHUB_TOKEN: ${{ secrtes.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secretes.GITHUB_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_ROOT_CERT: ${{ secrets.SONAR_ROOT_CERT }}
-        # with:
-        #   projectBaseDir: my-custom-directory
-        #   args: >
-        #     -Dsonar.projectKey=insta-gift-api
-        #     -Dsonar.host.url=http://18.191.78.107:9000
-        #     -Dsonar.login=sqp_d8906e943e804c248370b6baf6d50c6b618775ab
-        #     -Dsonar.sources=.
-        #     -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
-        #     -Dsonar.pullrequest.branch=${{github.ref_name}}
-        #     -Dsonar.pullrequest.base=master
-        #     -Dsonar.verbose=true
-        #     -Dsonar.qualitygate.wait=true
