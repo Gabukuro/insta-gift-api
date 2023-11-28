@@ -49,7 +49,7 @@ jobs:
 
 
   analyze_sonar:
-    needs: test
+    # needs: test
     uses: ./.github/workflows/Sonar.yml
     secrets: inherit
 
