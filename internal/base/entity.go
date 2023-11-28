@@ -3,7 +3,7 @@ package base
 import (
 	"time"
 
-	"github.com/transfeera/go-infra/pkg/uuid"
+	"github.com/Gabukuro/insta-gift-api/internal/pkg/uuid"
 )
 
 type (
