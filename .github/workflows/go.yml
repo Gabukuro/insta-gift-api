@@ -55,6 +55,7 @@ jobs:
 
   docker:
     needs: build
+    if: ${{github.ref_name}} == 'main'
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
 
