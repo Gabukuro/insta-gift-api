@@ -19,5 +19,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
           SONAR_ROOT_CERT: ${{ secrets.SONAR_ROOT_CERT }}
-        args: >
-          -Dsonar.projectKey=sqp_beccac88e26b5246ae029111351d4795fbf53bd8
+        with:
+          args: >
+            -Dsonar.projectKey=sqp_beccac88e26b5246ae029111351d4795fbf53bd8
