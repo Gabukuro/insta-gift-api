@@ -12,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       GO_ENV: test
+      TEST_RESULTS: /tmp/test-results
     strategy:
       matrix:
         go_version: ['1.20']
@@ -24,28 +25,11 @@ jobs:
       with:
         go-version: ${{ matrix.go_version }}
 
-    - name: checkout
-      run: >-
-          make install-ci &&
-          which go-junit-report > /dev/null || go install
-          github.com/jstemmer/go-junit-report@latest &&
-          which sql-migrate > /dev/null || go install
-          github.com/rubenv/sql-migrate/...@latest
-
-    - name: Create test results directory
-      run: mkdir /tmp/test-results
+    - name: Install
+      run: make install-ci
 
     - name: Test
-      run: |
-        trap "go-junit-report /tmp/test-results/go-test.out > /tmp/test-results/go-test-report.xml" EXIT
-        make test | tee /tmp/test-results/go-test.out && cp coverage.out /tmp/test-results/coverage.out
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: test-results
-        path: /tmp/test-results
-
+      run: make test
   
   build:
     needs: test
@@ -65,7 +49,7 @@ jobs:
 
 
   analyze_sonar:
-    needs: test
+    needs: build
     uses: ./.github/workflows/Sonar.yml
     secrets: inherit
 
@@ -74,8 +58,4 @@ jobs:
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
 
-  deploy_ec2:
-    needs: build
-    uses: ./.github/workflows/EC2.yml
-    secrets: inherit
 
