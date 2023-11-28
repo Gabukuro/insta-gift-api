@@ -23,8 +23,8 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: Go
-        image: bagrielis/insta-gift-api:main
+        container-name: InstaGiftApi
+        image: bagrielis/insta-gift-api:${{github.ref_name}}
         environment-variables: |
           PORT=8000
           
