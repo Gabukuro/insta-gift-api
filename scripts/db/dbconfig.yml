@@ -1,0 +1,29 @@
+development:
+  dialect: postgres
+  datasource: host=localhost dbname=insta-gift-api user=postgres sslmode=disable
+  table: migrations
+  dir: migrations
+
+seeder:
+  dialect: postgres
+  datasource: host=localhost dbname=insta-gift-api user=postgres sslmode=disable
+  table: seeds_migrations
+  dir: migrations/seeders
+
+test:
+  dialect: postgres
+  datasource: ${DATABASE_URL}
+  table: migrations
+  dir: migrations
+
+test-seeder:
+  dialect: postgres
+  datasource: ${DATABASE_URL}
+  table: seeds_migrations
+  dir: migrations/test_seeders
+
+production:
+  dialect: postgres
+  datasource: host=${PGHOST} dbname=${PGDATABASE} user=${PGUSER} password=${PGPASSWORD} sslmode=require
+  table: migrations
+  dir: migrations
