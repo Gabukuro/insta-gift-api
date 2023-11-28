@@ -1,4 +1,4 @@
-name: continuous-deployment
+name: EC2
 
 on:
   workflow_call: 
@@ -13,8 +13,7 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.0
       with:
-    # Artifact name
-        name: programa
+        name: program
 
     - name: Deploy
       uses: easingthemes/ssh-deploy@main

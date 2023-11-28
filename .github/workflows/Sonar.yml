@@ -1,28 +1,18 @@
-name: SonarQube Analysis
+name: SonarQube
 
 on:
   workflow_call:
 
 jobs:
-  sonarqube:
+  SonarQube:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
         with:
-          projectBaseDir: my-custom-directory
-          args: >
-            -Dsonar.projectKey=insta-gift-api
-            -Dsonar.host.url=http://18.191.78.107:9000
-            -Dsonar.login=sqp_d8906e943e804c248370b6baf6d50c6b618775ab
-            -Dsonar.sources=.
-            -Dsonar.test.exclusions=tests/**
-            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
-            -Dsonar.pullrequest.branch=${{github.ref_name}}
-            -Dsonar.pullrequest.base=master
-            -Dsonar.tests=tests/
-            -Dsonar.verbose=true
-            -Dsonar.qualitygate.wait=true
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

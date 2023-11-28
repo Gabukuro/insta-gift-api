@@ -18,7 +18,6 @@ func main() {
 	time.Local = time.UTC
 	logger := log.New(zerolog.InfoLevel)
 	config := config.New(logger)
-	fmt.Printf("config %+v\n", config)
 
 	routerInstance := router.NewRouter(&router.Options{
 		AppName: "insta-gift-api",
