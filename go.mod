@@ -17,7 +17,6 @@ require (
 	github.com/rubenv/sql-migrate v1.5.2
 	github.com/satori/go.uuid v1.2.0
 	github.com/stretchr/testify v1.8.4
-	github.com/transfeera/go-infra v1.33.0-stacktrace-marshemeler.0
 	github.com/uptrace/bun v1.1.16
 	github.com/uptrace/bun/dialect/pgdialect v1.1.16
 )
