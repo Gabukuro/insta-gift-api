@@ -48,19 +48,19 @@ jobs:
 
   analyze_sonar:
     needs: test
-    if: ${{ github.ref == 'refs/head/main' }}
+    if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/Sonar.yml
     secrets: inherit
 
   deploy_docker:
     needs: build
-    if: ${{ github.ref == 'refs/head/main' }}
+    if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
 
   deploy_ec2:
     needs: build
-    if: ${{ github.ref == 'refs/head/main' }}
+    if: ${{ github.ref_name == 'main' }}
     uses: ./.github/workflows/EC2.yml
     secrets: inherit
 
