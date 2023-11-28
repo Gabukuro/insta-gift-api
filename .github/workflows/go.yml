@@ -24,8 +24,13 @@ jobs:
       with:
         go-version: ${{ matrix.go_version }}
 
-    - name: Install
-      run: make install
+    - name: checkout
+      run: >-
+          make install-ci &&
+          which go-junit-report > /dev/null || go install
+          github.com/jstemmer/go-junit-report@latest &&
+          which sql-migrate > /dev/null || go install
+          github.com/rubenv/sql-migrate/...@latest
 
     - name: Create test results directory
       run: mkdir /tmp/test-results
