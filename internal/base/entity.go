@@ -22,3 +22,14 @@ func (b *BaseEntity) NewUUID() {
 	id := uuid.New()
 	b.SetID(id)
 }
+
+func (b *BaseEntity) SetCreatedAt() {
+	timeNow := time.Now()
+	b.CreatedAt = timeNow
+	b.UpdatedAt = timeNow
+}
+
+func (b *BaseEntity) SetUpdatedAt() {
+	timeNow := time.Now()
+	b.UpdatedAt = timeNow
+}

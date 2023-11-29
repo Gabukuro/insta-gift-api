@@ -63,6 +63,8 @@ func (s *Service) CreatePrediction(ctx context.Context, username string) (*Predi
 		Status:   PredictionStatusPending,
 	}
 	prediction.NewUUID()
+	prediction.SetCreatedAt()
+	prediction.SetUpdatedAt()
 
 	err := s.repository.CreatePrediction(ctx, prediction)
 	if err != nil {
