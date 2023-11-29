@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/Gabukuro/insta-gift-api/internal/domain/prediction"
+	"github.com/Gabukuro/insta-gift-api/internal/domain/product"
 	"github.com/Gabukuro/insta-gift-api/internal/pkg/config"
 	"github.com/Gabukuro/insta-gift-api/internal/pkg/database"
 	"github.com/Gabukuro/insta-gift-api/internal/pkg/log"
@@ -35,6 +36,13 @@ func main() {
 	databaseInstance := database.New(databaseURL, 1, logger).Connect()
 	databaseBun := bun.NewDB(databaseInstance.DB, pgdialect.New())
 
+	productRepo := product.NewRepository(databaseBun, logger)
+	productService := product.NewService(product.ServiceParams{
+		Ctx:        ctx,
+		Repository: productRepo,
+		Logger:     logger,
+	})
+
 	predictionRepo := prediction.NewRepository(databaseBun, logger)
 	predictionService := prediction.NewService(prediction.ServiceParams{
 		Ctx:                     ctx,
@@ -43,7 +51,7 @@ func main() {
 		SNSClient:               snsClient,
 		PredictionEventTopicArn: config.GetSecretString("aws.sns.insta-gift-api.analysisProfileEvents"),
 	})
-	prediction.NewHTTPHandler(routerInstance.App(), predictionService, logger)
+	prediction.NewHTTPHandler(routerInstance.App(), predictionService, productService, logger)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

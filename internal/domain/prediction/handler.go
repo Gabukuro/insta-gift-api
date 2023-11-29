@@ -1,14 +1,16 @@
 package prediction
 
 import (
+	"github.com/Gabukuro/insta-gift-api/internal/domain/product"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 )
 
 type (
 	httpHandler struct {
-		service *Service
-		logger  *zerolog.Logger
+		service        *Service
+		productService *product.Service
+		logger         *zerolog.Logger
 	}
 
 	Response struct {
@@ -17,10 +19,11 @@ type (
 	}
 )
 
-func NewHTTPHandler(app *fiber.App, service *Service, logger *zerolog.Logger) {
+func NewHTTPHandler(app *fiber.App, service *Service, productService *product.Service, logger *zerolog.Logger) {
 	handler := &httpHandler{
-		service: service,
-		logger:  logger,
+		service:        service,
+		productService: productService,
+		logger:         logger,
 	}
 
 	predictionGroup := app.Group("/prediction/:username")
@@ -32,7 +35,13 @@ func NewHTTPHandler(app *fiber.App, service *Service, logger *zerolog.Logger) {
 func (h *httpHandler) GetPredictionByUsername(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 	prediction := &Prediction{}
-	if err := h.service.GetPredictionByUsername(ctx.Context(), username, prediction); err != nil {
+	err := h.service.GetPredictionByUsername(ctx.Context(), username, prediction)
+	if err != nil {
+		return err
+	}
+
+	prediction.Products, err = h.productService.GetProductsByPredictionID(ctx.Context(), prediction.ID)
+	if err != nil {
 		return err
 	}
 
