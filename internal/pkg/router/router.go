@@ -35,7 +35,7 @@ func NewRouter(options *Options) *Router {
 	routerInstance.app.Use(cors.New())
 
 	routerInstance.app.Get("/status", func(ctx *fiber.Ctx) (err error) {
-		_ = ctx.SendString("OK")
+		_ = ctx.SendString("Running")
 		return nil
 	})
 
