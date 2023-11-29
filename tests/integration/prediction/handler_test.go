@@ -42,7 +42,7 @@ func TestPredictionHandler(t *testing.T) {
 			},
 			Expected: &testhelper.Expected{
 				Status: http.StatusOK,
-				Body:   `{"message":"Prediction created"}`,
+				Body:   `{"prediction":{"id":"!uuid","created_at":"!date","updated_at":"!date","username":"test2","feedback_rating":0,"status":"pending"}}`,
 			},
 		},
 	}

@@ -57,7 +57,7 @@ func (s *Service) GetPredictionByUsername(ctx context.Context, username string, 
 	return s.repository.GetPredictionByUsername(ctx, username, prediction)
 }
 
-func (s *Service) CreatePrediction(ctx context.Context, username string) error {
+func (s *Service) CreatePrediction(ctx context.Context, username string) (*Prediction, error) {
 	prediction := &Prediction{
 		Username: username,
 		Status:   PredictionStatusPending,
@@ -66,15 +66,15 @@ func (s *Service) CreatePrediction(ctx context.Context, username string) error {
 
 	err := s.repository.CreatePrediction(ctx, prediction)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	_, err = s.SendPredictionMessage(ctx, prediction)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return prediction, nil
 }
 
 func (s *Service) CheckIfPredictionExistsAndReturnItsStatus(ctx context.Context, username string) (*PredictionStatus, bool) {

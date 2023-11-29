@@ -15,7 +15,7 @@ CREATE TABLE products (
   PRIMARY KEY (id)
 );
 
-CREATE TYPE prediction_status AS ENUM ('pending', 'completed', 'failed');
+CREATE TYPE prediction_status AS ENUM ('pending', 'processing', 'completed', 'failed');
 
 CREATE TABLE predictions (
   id UUID NOT NULL,

@@ -51,19 +51,14 @@ func (h *httpHandler) GetPredictionByUsername(ctx *fiber.Ctx) error {
 func (h *httpHandler) CreatePrediction(ctx *fiber.Ctx) error {
 	username := ctx.Params("username")
 
-	if status, exists := h.service.CheckIfPredictionExistsAndReturnItsStatus(ctx.Context(), username); exists {
-		switch *status {
-		case PredictionStatusPending:
-			return ctx.JSON(&Response{Message: "Prediction is pending"})
-		case PredictionStatusCompleted:
-			return h.GetPredictionByUsername(ctx)
-		}
+	if _, exists := h.service.CheckIfPredictionExistsAndReturnItsStatus(ctx.Context(), username); exists {
+		return h.GetPredictionByUsername(ctx)
 	}
 
-	err := h.service.CreatePrediction(ctx.Context(), username)
+	prediction, err := h.service.CreatePrediction(ctx.Context(), username)
 	if err != nil {
 		return err
 	}
 
-	return ctx.JSON(&Response{Message: "Prediction created"})
+	return ctx.JSON(&Response{Prediction: prediction})
 }
