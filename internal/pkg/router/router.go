@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/rs/zerolog"
 )
 
@@ -30,6 +31,8 @@ func NewRouter(options *Options) *Router {
 		),
 		logger: options.Logger,
 	}
+
+	routerInstance.app.Use(cors.New())
 
 	routerInstance.app.Get("/status", func(ctx *fiber.Ctx) (err error) {
 		_ = ctx.SendString("OK")

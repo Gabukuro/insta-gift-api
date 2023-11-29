@@ -23,10 +23,12 @@ type (
 var pqErr *pq.Error
 
 func NewRepository(db *bun.DB, logger *zerolog.Logger) Repository {
-	return &postgresRepository{
+	repo := &postgresRepository{
 		logger: logger,
 		db:     *db,
 	}
+
+	return repo
 }
 
 func (r *postgresRepository) CreatePrediction(ctx context.Context, prediction *Prediction) error {

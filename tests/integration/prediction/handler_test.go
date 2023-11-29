@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/Gabukuro/insta-gift-api/internal/domain/prediction"
+	"github.com/Gabukuro/insta-gift-api/internal/domain/product"
 	awsprovider "github.com/Gabukuro/insta-gift-api/internal/pkg/awsprovider/mock"
 	"github.com/Gabukuro/insta-gift-api/internal/pkg/database"
 	"github.com/Gabukuro/insta-gift-api/internal/pkg/log"
@@ -78,6 +79,13 @@ func RunTests(t *testing.T, tests []testhelper.Test) {
 	snsClient := awsprovider.NewMockSNSAPI(mcokCtrl)
 	snsClient.EXPECT().Publish(gomock.Any()).Return(nil, nil)
 
+	productRepo := product.NewRepository(bunDB, logger)
+	productService := product.NewService(product.ServiceParams{
+		Ctx:        ctx,
+		Repository: productRepo,
+		Logger:     logger,
+	})
+
 	predictionRepo := prediction.NewRepository(bunDB, logger)
 	predictionService := prediction.NewService(prediction.ServiceParams{
 		Ctx:                     ctx,
@@ -87,7 +95,7 @@ func RunTests(t *testing.T, tests []testhelper.Test) {
 		PredictionEventTopicArn: "arn:aws:sns:us-east-2:000000000000:profile-analysis-events",
 	})
 
-	prediction.NewHTTPHandler(routerInstance.App(), predictionService, logger)
+	prediction.NewHTTPHandler(routerInstance.App(), predictionService, productService, logger)
 
 	testhelper.TestAllRequests(tests, t, routerInstance)
 }
