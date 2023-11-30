@@ -56,5 +56,7 @@ test-e2e:
 
 # Run all tests
 test-all:
-	gotestsum --format testname -- ./... -coverprofile=coverage.out -coverpkg=./internal/... && \
-	egrep -v 'mock|testhelper' coverage.out > tmpcoverage && mv tmpcoverage coverage.out
+	(gotestsum --format testname -- ./... -coverprofile=coverage.out -coverpkg=./internal/... && \
+	egrep -v 'mock|testhelper' coverage.out > tmpcoverage && mv tmpcoverage coverage.out) && \
+	gotestsum --format testname -- -json ./... | go-junit-report > report-all.xml
+

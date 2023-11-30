@@ -3,3 +3,4 @@ vendor
 .scannerwork
 coverage.out
 coverage.html
+report-*.xml
