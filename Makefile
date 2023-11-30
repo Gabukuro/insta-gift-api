@@ -13,11 +13,6 @@ install:
 	go mod tidy && \
 	go mod vendor
 
-# Install dependencies for CI
-install-ci:
-	(which golangci-lint > /dev/null || go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.2) && \
-	go mod download
-
 # Upgrade packages to last version
 upgrade-pkgs:
 	go get -u ./... && make install

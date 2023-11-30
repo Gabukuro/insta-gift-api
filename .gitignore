@@ -2,3 +2,4 @@
 vendor
 .scannerwork
 coverage.out
+coverage.html

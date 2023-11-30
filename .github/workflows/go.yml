@@ -36,10 +36,20 @@ jobs:
         go-version: ${{ matrix.go_version }}
 
     - name: Install
-      run: make install
+      run: |
+        make install
+        go install github.com/jstemmer/go-junit-report@latest
 
     - name: Test
-      run: make test
+      run: |
+        make test
+        trap "go-junit-report go-test.out > go-test-report.xml" EXIT
+
+    - name: Upload Coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: go-test.out, coverage.out, go-test-report.xml
+        path: go-test.out, coverage.out, go-test-report.xml
   
   build:
     needs: test
