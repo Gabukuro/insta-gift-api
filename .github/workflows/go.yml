@@ -54,8 +54,8 @@ jobs:
         path: coverage.out
     - uses: actions/upload-artifact@v2
       with:
-        name: report-all.xml
-        path: report-all.xml
+        name: go-test-report.xml
+        path: go-test-report.xml
   
   build:
     needs: test
