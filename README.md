@@ -21,7 +21,7 @@ Este comando inicializa o projeto e instala as dependências necessárias.
 ### Rodar a Aplicação em Desenvolvimento
 
 Objsevação, se for a primeira que irá rodar o serviço, certifique-se que o localstack está rodando e rode o comando `make run`, ele irá aplicar o setup do banco de dados e rodar as migrações necessárias.
-> Um possível erro aqui é a falta de permissão para rodar o shell script, para contonar isso rode o comando `chmod +x scripts/db/setup_db.sh`.
+> Um possível erro aqui é a falta de permissão para rodar o shell script, para contornar isso utilize o comando `chmod +x scripts/db/setup_db.sh`.
 
 O comando a seguir  inicia a aplicação em modo de desenvolvimento usando o `nodemon` para hot reload:
 ```bash
