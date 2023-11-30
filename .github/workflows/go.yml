@@ -55,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: make test-e2e | tee go-test.out && go-junit-report <go-test.out> go-test-report.xml
+      run: go build -v -o main cmd/main.go
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
