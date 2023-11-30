@@ -46,8 +46,16 @@ jobs:
     - name: Upload Coverage
       uses: actions/upload-artifact@v2
       with:
-        name: go-test.out, coverage.out, report-all.xml
-        path: go-test.out, coverage.out, report-all.xml
+        name: go-test.out
+        path: go-test.out
+    - uses: actions/upload-artifact@v2
+      with:
+        name: coverage.out
+        path: coverage.out
+    - uses: actions/upload-artifact@v2
+      with:
+        name: report-all.xml
+        path: report-all.xml
   
   build:
     needs: test

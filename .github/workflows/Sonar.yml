@@ -14,7 +14,13 @@ jobs:
       - name: Download Coverage Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: go-test.out, coverage.out, report-all.xml
+          name: go-test.out
+      - uses: actions/download-artifact@v2
+        with:
+          name: coverage.out
+      - uses: actions/download-artifact@v2
+        with:
+          name: report-all.xml
 
 
       - name: SonarQube Scan
