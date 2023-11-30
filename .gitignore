@@ -3,4 +3,5 @@ vendor
 .scannerwork
 coverage.out
 coverage.html
-report-*.xml
+go-test-report.xml
+go-test.out

@@ -41,7 +41,7 @@ jobs:
         go install github.com/jstemmer/go-junit-report@latest
 
     - name: Test
-      run: make test
+      run: make test | tee go-test.out && go-junit-report <go-test.out> go-test-report.xml
 
     - name: Upload Coverage
       uses: actions/upload-artifact@v2
@@ -55,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: go build -v -o main cmd/main.go
+      run: make test-e2e | tee go-test.out && go-junit-report <go-test.out> go-test-report.xml
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0

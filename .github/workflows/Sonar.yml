@@ -11,6 +11,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Download Coverage Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: go-test.out, coverage.out, report-all.xml
+
+
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env: 

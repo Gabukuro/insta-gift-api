@@ -51,12 +51,11 @@ test-unit:
 
 # Run e2e tests
 test-e2e:
-	gotestsum --format testname -- ./test/integration/... -coverprofile=coverage.out -coverpkg=./internal/... && \
+	gotestsum --format testname -- ./tests/integration/... -coverprofile=coverage.out -coverpkg=./internal/... && \
 	egrep -v 'mock|testhelper' coverage.out > tmpcoverage && mv tmpcoverage coverage.out
 
 # Run all tests
 test-all:
-	(gotestsum --format testname -- ./... -coverprofile=coverage.out -coverpkg=./internal/... && \
-	egrep -v 'mock|testhelper' coverage.out > tmpcoverage && mv tmpcoverage coverage.out) && \
-	gotestsum --format testname -- -json ./... | go-junit-report > report-all.xml
+	gotestsum --format testname -- ./... -coverprofile=coverage.out -coverpkg=./internal/... && \
+	egrep -v 'mock|testhelper' coverage.out > tmpcoverage && mv tmpcoverage coverage.out
 

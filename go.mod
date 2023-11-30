@@ -29,6 +29,7 @@ require (
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/jstemmer/go-junit-report v1.0.0 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
